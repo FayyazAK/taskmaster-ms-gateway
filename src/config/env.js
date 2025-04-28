@@ -14,6 +14,7 @@ module.exports = {
   // SERVICE ENDPOINTS
   SERVICES: {
     AUTH_URL: process.env.AUTH_SERVICE_URL || "http://localhost:4001",
+    TODO_URL: process.env.TODO_SERVICE_URL || "http://localhost:4002",
   },
 
   // JWT CONFIG

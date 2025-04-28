@@ -4,12 +4,11 @@ const config = require("../config/env");
 
 const signRequest = (proxyReq, req) => {
   const timestamp = Date.now().toString();
-  const requestPath = req.path;
 
   // Create signature using components of the request
   const signature = crypto
     .createHmac("sha256", config.API_GATEWAY_SIGNATURE)
-    .update(`${timestamp}${requestPath}`)
+    .update(`${timestamp}${req.originalUrl}`)
     .digest("hex");
 
   // Add headers to the proxy request

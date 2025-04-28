@@ -19,6 +19,7 @@ async function startServer() {
 
     logger.info(`Environment: ${config.NODE_ENV}`);
     logger.info(`Services: Auth(${config.SERVICES.AUTH_URL})`);
+    logger.info(`Services: Todo(${config.SERVICES.TODO_URL})`);
   } catch (error) {
     logger.error("Failed to start API Gateway:", error);
     process.exit(1);

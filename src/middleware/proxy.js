@@ -65,7 +65,9 @@ const createServiceProxy = (
 
 // Create proxies for each service
 const authServiceProxy = createServiceProxy("auth", config.SERVICES.AUTH_URL);
+const todoServiceProxy = createServiceProxy("todo", config.SERVICES.TODO_URL);
 
 module.exports = {
   authServiceProxy,
+  todoServiceProxy,
 };
