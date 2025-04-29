@@ -9,6 +9,7 @@ const errorHandler = require("./middleware/errorHandler");
 const responseHandler = require("./middleware/responseHandler");
 const routes = require("./routes");
 const rateLimiter = require("./middleware/rateLimiter");
+const { checkAllServices } = require("./utils/healthCheck");
 
 const app = express();
 
@@ -26,7 +27,6 @@ if (config.SSL.enabled) {
   });
 }
 
-// Trust proxy if behind a load balancer
 app.set("trust proxy", 1);
 
 // Middleware
@@ -47,8 +47,9 @@ app.use(rateLimiter);
 app.use("/api", routes);
 
 // Health check endpoint
-app.get("/health", (req, res) => {
-  return res.success(null, "API Gateway is running", 200);
+app.get("/health", async (req, res) => {
+  const healthStatus = await checkAllServices();
+  return res.success(healthStatus, "API Gateway is running", 200);
 });
 
 // 404 handler

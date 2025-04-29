@@ -2,10 +2,17 @@ const app = require("./src/app");
 const config = require("./src/config/env");
 const logger = require("./src/utils/logger");
 const createServers = require("./src/config/server");
+const { checkAllServices } = require("./src/utils/healthCheck");
 
 // Start the server
 async function startServer() {
   try {
+    logger.info(`Environment: ${config.NODE_ENV}`);
+    // Check health of all services before starting
+    logger.info("Checking health of all services...");
+    await checkAllServices();
+    logger.info("Proceeding to start the gateway...");
+
     // Create HTTP and/or HTTPS servers based on configuration
     const servers = createServers(app);
 
@@ -16,10 +23,6 @@ async function startServer() {
     } else {
       logger.info(`API Gateway running on HTTP port ${config.PORT}`);
     }
-
-    logger.info(`Environment: ${config.NODE_ENV}`);
-    logger.info(`Services: Auth(${config.SERVICES.AUTH_URL})`);
-    logger.info(`Services: Todo(${config.SERVICES.TODO_URL})`);
   } catch (error) {
     logger.error("Failed to start API Gateway:", error);
     process.exit(1);

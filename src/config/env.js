@@ -8,6 +8,9 @@ module.exports = {
   API_GATEWAY_SIGNATURE:
     process.env.API_GATEWAY_SIGNATURE || "taskmaster@gateway",
 
+  // SYSTEM TOKEN
+  SYSTEM_TOKEN: process.env.SYSTEM_TOKEN || "taskmaster@system",
+
   // SERVER CONFIG
   PORT: process.env.PORT || 4000,
 
@@ -15,6 +18,7 @@ module.exports = {
   SERVICES: {
     AUTH_URL: process.env.AUTH_SERVICE_URL || "http://localhost:4001",
     TODO_URL: process.env.TODO_SERVICE_URL || "http://localhost:4002",
+    EMAIL_URL: process.env.EMAIL_SERVICE_URL || "http://localhost:4009",
   },
 
   // JWT CONFIG

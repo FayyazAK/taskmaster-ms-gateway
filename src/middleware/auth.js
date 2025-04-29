@@ -1,7 +1,7 @@
 const STATUS = require("../utils/statusCodes");
 const { verifyToken } = require("../services/jwtService");
 const MSG = require("../utils/messages");
-
+const config = require("../config/env");
 const authenticate = (req, res, next) => {
   try {
     // Get token from cookies
@@ -32,4 +32,12 @@ const authorizeAdmin = (req, res, next) => {
   next();
 };
 
-module.exports = { authenticate, authorizeAdmin };
+const authorizeSystem = (req, res, next) => {
+  const systemToken = req.headers["x-system-token"];
+  if (!systemToken || systemToken !== config.SYSTEM_TOKEN) {
+    return res.error(MSG.FORBIDDEN, STATUS.FORBIDDEN);
+  }
+  next();
+};
+
+module.exports = { authenticate, authorizeAdmin, authorizeSystem };

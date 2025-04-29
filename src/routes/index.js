@@ -5,12 +5,16 @@ const {
   todoServiceProxy,
   emailServiceProxy,
 } = require("../middleware/proxy");
-const { authenticate, authorizeAdmin } = require("../middleware/auth");
-// Public routes
+const {
+  authenticate,
+  authorizeAdmin,
+  authorizeSystem,
+} = require("../middleware/auth");
+
 router.use("/auth/login", authServiceProxy);
 router.use("/auth/signup", authServiceProxy);
 router.use("/auth", authenticate, authServiceProxy);
-
+router.use("/emails", authorizeSystem, emailServiceProxy);
 router.use("/todo/lists", authenticate, todoServiceProxy);
 router.use("/todo/tasks", authenticate, todoServiceProxy);
 router.use("/todo/priorities", authenticate, todoServiceProxy);
