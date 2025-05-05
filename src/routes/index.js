@@ -13,6 +13,7 @@ const {
 
 router.use("/auth/login", authServiceProxy);
 router.use("/auth/signup", authServiceProxy);
+router.use("/auth/verify", authServiceProxy);
 router.use("/auth", authenticate, authServiceProxy);
 router.use("/emails", authorizeSystem, emailServiceProxy);
 router.use("/todo/lists", authenticate, todoServiceProxy);
