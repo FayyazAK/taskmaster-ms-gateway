@@ -7,7 +7,7 @@ const { checkAllServices } = require("./src/utils/healthCheck");
 // Start the server
 async function startServer() {
   try {
-    logger.info(`Environment: ${config.NODE_ENV}`);
+    logger.info(`Environment: ${config.nodeEnv}`);
     // Check health of all services before starting
     logger.info("Checking health of all services...");
     await checkAllServices();
@@ -16,12 +16,12 @@ async function startServer() {
     // Create HTTP and/or HTTPS servers based on configuration
     const servers = createServers(app);
 
-    if (config.SSL.enabled) {
+    if (config.ssl.enabled) {
       logger.info(
-        `API Gateway running on HTTPS port ${config.SSL.port} and HTTP port ${config.PORT} (redirecting)`
+        `API Gateway running on HTTPS port ${config.ssl.port} and HTTP port ${config.server.port} (redirecting)`
       );
     } else {
-      logger.info(`API Gateway running on HTTP port ${config.PORT}`);
+      logger.info(`API Gateway running on HTTP port ${config.server.port}`);
     }
   } catch (error) {
     logger.error("Failed to start API Gateway:", error);

@@ -34,7 +34,7 @@ const authorizeAdmin = (req, res, next) => {
 
 const authorizeSystem = (req, res, next) => {
   const systemToken = req.headers["x-system-token"];
-  if (!systemToken || systemToken !== config.SYSTEM_TOKEN) {
+  if (!systemToken || systemToken !== config.gateway.systemToken) {
     return res.error(MSG.FORBIDDEN, STATUS.FORBIDDEN);
   }
   next();

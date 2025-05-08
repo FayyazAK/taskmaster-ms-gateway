@@ -7,7 +7,7 @@ const signRequest = (proxyReq, req) => {
 
   // Create signature using components of the request
   const signature = crypto
-    .createHmac("sha256", config.API_GATEWAY_SIGNATURE)
+    .createHmac("sha256", config.gateway.signature)
     .update(`${timestamp}${req.originalUrl}`)
     .digest("hex");
 

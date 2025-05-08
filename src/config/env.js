@@ -1,57 +1,64 @@
-require("dotenv").config();
+const path = require("path");
+const dotenv = require("dotenv");
+const validateEnv = require("./validateEnv");
+
+dotenv.config({
+  path: path.resolve(
+    process.cwd(),
+    `.env.${process.env.NODE_ENV || "development"}`
+  ),
+});
+
+// Validate and sanitize environment variables
+const env = validateEnv(process.env);
 
 module.exports = {
-  // NODE ENV
-  NODE_ENV: process.env.NODE_ENV || "development",
+  nodeEnv: env.NODE_ENV,
 
-  // GATEWAY CONFIG
-  API_GATEWAY_SIGNATURE:
-    process.env.API_GATEWAY_SIGNATURE || "taskmaster@gateway",
-
-  // SYSTEM TOKEN
-  SYSTEM_TOKEN: process.env.SYSTEM_TOKEN || "taskmaster@system",
-
-  // SERVER CONFIG
-  PORT: process.env.PORT || 4000,
-
-  // SERVICE ENDPOINTS
-  SERVICES: {
-    AUTH_URL: process.env.AUTH_SERVICE_URL || "http://localhost:4001",
-    TODO_URL: process.env.TODO_SERVICE_URL || "http://localhost:4002",
-    EMAIL_URL: process.env.EMAIL_SERVICE_URL || "http://localhost:4009",
+  server: {
+    port: env.PORT,
   },
 
-  // JWT CONFIG
-  JWT_SECRET: process.env.JWT_SECRET || "auth-service-secret-key",
-
-  // CORS CONFIG
-  CORS: {
-    origin: process.env.CORS_ALLOWED_ORIGINS
-      ? process.env.CORS_ALLOWED_ORIGINS.split(",")
-      : ["http://localhost:3000"],
-    methods: process.env.CORS_ALLOWED_METHODS
-      ? process.env.CORS_ALLOWED_METHODS.split(",")
-      : ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: process.env.CORS_ALLOWED_HEADERS
-      ? process.env.CORS_ALLOWED_HEADERS.split(",")
-      : ["Content-Type", "Authorization"],
-    credentials: true,
+  gateway: {
+    signature: env.API_GATEWAY_SIGNATURE,
+    systemToken: env.SYSTEM_TOKEN,
+    url: env.GATEWAY_URL,
   },
 
-  // SSL CONFIG
-  SSL: {
-    enabled: process.env.SSL_ENABLED === "true",
-    key: process.env.SSL_KEY_PATH || "ssl/key.pem",
-    cert: process.env.SSL_CERT_PATH || "ssl/cert.pem",
-    port: process.env.SSL_PORT || 4443,
+  services: {
+    auth: env.AUTH_SERVICE_URL,
+    todo: env.TODO_SERVICE_URL,
+    email: env.EMAIL_SERVICE_URL,
   },
 
-  // RATE LIMITING
-  RATE_LIMIT: {
-    WINDOW_MS: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 60000, // 1 minute
-    MAX: parseInt(process.env.RATE_LIMIT_MAX) || 100, // 100 requests per minute
+  cors: {
+    allowedOrigins: env.CORS_ALLOWED_ORIGINS.split(","),
+    allowedMethods: env.CORS_ALLOWED_METHODS.split(","),
+    allowedHeaders: env.CORS_ALLOWED_HEADERS.split(","),
   },
 
-  // LOGGING
-  LOG_LEVEL: process.env.LOG_LEVEL || "info",
+  ssl: {
+    enabled: env.SSL_ENABLED,
+    keyPath: env.SSL_KEY_PATH,
+    certPath: env.SSL_CERT_PATH,
+    port: env.SSL_PORT,
+  },
+
+  jwt: {
+    secret: env.JWT_SECRET,
+  },
+
+  log: {
+    level: env.LOG_LEVEL,
+    dir: env.LOG_DIR,
+    datePattern: env.LOG_DATE_PATTERN,
+    maxSize: env.LOG_MAX_SIZE,
+    maxFiles: env.LOG_MAX_FILES,
+    service: env.LOG_SERVICE_NAME,
+  },
+
+  rateLimit: {
+    windowMs: env.RATE_LIMIT_WINDOW_MS,
+    max: env.RATE_LIMIT_MAX,
+  },
 };
