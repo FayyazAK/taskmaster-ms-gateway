@@ -24,9 +24,9 @@ const checkServiceHealth = async (serviceName, serviceUrl) => {
 
 const checkAllServices = async () => {
   const services = [
-    { name: "Auth", url: config.SERVICES.AUTH_URL },
-    { name: "Todo", url: config.SERVICES.TODO_URL },
-    { name: "Email", url: config.SERVICES.EMAIL_URL },
+    { name: "Auth", url: config.services.auth },
+    { name: "Todo", url: config.services.todo },
+    { name: "Email", url: config.services.email },
   ];
 
   logger.info("Starting health check for all services...");

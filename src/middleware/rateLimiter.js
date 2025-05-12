@@ -3,8 +3,8 @@ const STATUS = require("../utils/statusCodes");
 const config = require("../config/env");
 // Rate limiter configuration
 const limiter = rateLimit({
-  windowMs: config.RATE_LIMIT.WINDOW_MS,
-  max: config.RATE_LIMIT.MAX,
+  windowMs: config.rateLimit.windowMs,
+  max: config.rateLimit.max,
   standardHeaders: true,
   legacyHeaders: true,
   handler: (req, res) => {

@@ -14,11 +14,11 @@ const { checkAllServices } = require("./utils/healthCheck");
 const app = express();
 
 // SSL Redirect Middleware
-if (config.SSL.enabled) {
+if (config.ssl.enabled) {
   app.use((req, res, next) => {
     if (!req.secure) {
       const httpsUrl = `https://${req.headers.host.split(":")[0]}:${
-        config.SSL.port
+        config.ssl.port
       }${req.url}`;
       logger.info(`Redirecting to HTTPS: ${httpsUrl}`);
       return res.redirect(301, httpsUrl);
@@ -30,7 +30,7 @@ if (config.SSL.enabled) {
 app.set("trust proxy", 1);
 
 // Middleware
-app.use(cors(config.CORS));
+app.use(cors(config.cors));
 app.use(helmet());
 app.use(morgan("combined", { stream: logger.stream }));
 app.use(express.json());
