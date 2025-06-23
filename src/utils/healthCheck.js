@@ -5,7 +5,7 @@ const logger = require("./logger");
 const checkServiceHealth = async (serviceName, serviceUrl) => {
   try {
     const response = await axios.get(`${serviceUrl}/health`, {
-      timeout: 5000, // 5 seconds timeout
+      timeout: 50000, // 5 seconds timeout
     });
 
     if (response.status === 200) {

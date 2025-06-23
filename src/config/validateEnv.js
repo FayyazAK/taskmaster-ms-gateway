@@ -14,9 +14,9 @@ const envSchema = Joi.object({
   SYSTEM_TOKEN: Joi.string().default("taskmaster@system"),
 
   // SERVICES
-  AUTH_SERVICE_URL: Joi.string().uri().default("https://localhost:4001"),
-  TODO_SERVICE_URL: Joi.string().uri().default("https://localhost:4002"),
-  EMAIL_SERVICE_URL: Joi.string().uri().default("https://localhost:4009"),
+  AUTH_SERVICE_URL: Joi.string().default("https://localhost:4001"),
+  TODO_SERVICE_URL: Joi.string().default("https://localhost:4002"),
+  EMAIL_SERVICE_URL: Joi.string().default("https://localhost:4009"),
 
   // JWT CONFIG
   JWT_SECRET: Joi.string().required(),
